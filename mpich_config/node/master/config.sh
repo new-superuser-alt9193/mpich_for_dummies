@@ -10,7 +10,7 @@ DEPS="nfs-server openssh-server keychain build-essential mpich"
 
 NAME_NEW_USER="mpiu"
 ID_NEW_USER=1500
-
+HOME_NEW_USER=/mirror/${NAME_NEW_USER}
 # //////////////////////////////
 
 # Install dependencies
@@ -32,13 +32,13 @@ if id $NAME_NEW_USER &>/dev/null; then
     userdel $NAME_NEW_USER
 fi
 
-useradd -s /usr/bin/bash -m -d /mirror/${NAME_NEW_USER} -u $ID_NEW_USER $NAME_NEW_USER
+useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
 passwd -d mpiu
 
 # Step 7: Setting up passwordless SSH for communication between nodes (Not all the step)
 
-su - mpiu
-ssh-keygen -t rsa -f "~/.ssh/${ID_NEW_USER}_rsa"
-cd .ssh
-cat ${ID_NEW_USER}_rsa.pub >> authorized_keys
-exit
+su mpiu -c "
+    ssh-keygen -t rsa -f \"$HOME_NEW_USER/.ssh/${ID_NEW_USER}_rsa\" -P \"\";
+    cd $HOME_NEW_USER/.ssh;
+    cat ${ID_NEW_USER}_rsa.pub >> authorized_keys
+"

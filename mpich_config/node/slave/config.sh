@@ -23,7 +23,7 @@ if [ -d /mirror ]; then
 fi
 
 mkdir /mirror
-mount ub0:/mirror /mirror  
+# mount ub0:/mirror /mirror  
 
 # Step 5: Defining a user for running MPI programs
 # If user exist delete it.
