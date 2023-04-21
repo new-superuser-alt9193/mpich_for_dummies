@@ -23,6 +23,11 @@ echo "/mirror *(rw,sync)" | tee -a /etc/exports
 service nfs-kernel-server restart   
 
 # Step 5: Defining a user for running MPI programs
+# If user exist delete it.
+if id $NAME_NEW_USER &>/dev/null; then
+    usedel $NAME_NEW_USER
+fi
+
 useradd -s /usr/bin/bash -m -d /mirror/${NAME_NEW_USER} -u $ID_NEW_USER $NAME_NEW_USER
 passwd -d mpiu
 
