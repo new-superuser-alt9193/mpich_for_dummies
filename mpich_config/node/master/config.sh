@@ -14,7 +14,7 @@ DEPS="nfs-server openssh-server keychain build-essential mpich"
 # apt update
 # apt install -y $DEPS
 
-# Add hosts
+# Step 1: Defining hostnames in etc/hosts/
 for i in "${HOSTS[@]}"
 do
    echo "$i" >> /etc/hosts
