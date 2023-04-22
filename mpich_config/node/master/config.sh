@@ -1,21 +1,24 @@
 #!/bin/bash
-# Script created by Fernando Jimenez Pereyra based on https://help.ubuntu.com/community/MpichCluster
+# Script created by Fernando Jimenez Pereyra based on https://help.ubuntu.com/community/MpichCluster Steps 2-3, 5-10
 
 # This script have to be run with sudo.
 
 # //////////////////////////////
 # Script config
+source ../../commons/config.sh
 
 DEPS="nfs-server openssh-server keychain build-essential mpich"
-
-NAME_NEW_USER="mpiu"
-ID_NEW_USER=1500
-HOME_NEW_USER=/mirror/${NAME_NEW_USER}
 # //////////////////////////////
 
 # Install dependencies
-apt update
-apt install -y $DEPS
+# apt update
+# apt install -y $DEPS
+
+# Add hosts
+for i in "${HOSTS[@]}"
+do
+   echo "$i" >> /etc/hosts
+done
 
 # Step 3: Sharing Master Folder
 if [ -d /mirror ]; then
