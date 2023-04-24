@@ -11,13 +11,29 @@ DEPS="nfs-server openssh-server keychain build-essential mpich"
 # //////////////////////////////
 
 # Install dependencies
-# apt update
-# apt install -y $DEPS
+apt update
+apt install -y $DEPS
 
 # Step 1: Defining hostnames in etc/hosts/
-for i in "${HOSTS[@]}"
-do
-   echo "$i" >> /etc/hosts
+for ((i = 0; i < ${#HOSTS[@]}; i += 2))
+do 
+    IP=${HOSTS[$i]}
+    HOSTNAME=${HOSTS[$((i+1))]}
+
+    if grep -Fq $HOSTNAME $HOSTS_FILE
+    then
+        if grep -Fxq "$IP $HOSTNAME" $HOSTS_FILE
+        then
+            echo Hostname $HOSTNAME whit IP $IP exist in $HOSTS_FILE
+        else
+            echo Hostname $HOSTNAME exist in $HOSTS_FILE with another IP, changing IP to $IP
+            sed -i "/$HOSTNAME/d" $HOSTS_FILE
+            echo $IP $HOSTNAME >> $HOSTS_FILE
+        fi
+    else
+        echo Hostname $HOSTNAME no exist in $HOSTS_FILE, adding $HOSTNAME to $HOSTS_FILE
+        echo $IP $HOSTNAME >> $HOSTS_FILE
+    fi
 done
 
 # Step 3: Sharing Master Folder
