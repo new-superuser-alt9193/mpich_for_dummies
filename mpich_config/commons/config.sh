@@ -8,16 +8,22 @@ HOME_NEW_USER=/mirror/${NAME_NEW_USER}
 # Hosts config
 # IP HOSTNAME
 HOSTS=(
-    "192.168.4.9 ub0"
-    "192.168.4.7 ub1"
-    "192.168.4.8 ub2"
+    192.168.4.9 ub0
+    192.168.4.7 ub1
+    192.168.4.8 ub2
 )
 HOSTS_FILE=/etc/hosts
 
 #////////////////////////////////////////////////
 UpdateInstall(){
-    apt update
-    apt install -y $1
+    wget -q --spider http://google.com
+    if [ $? -eq 0 ]
+    then
+        apt update
+        apt install -y $1
+    else
+        echo "You need an internet connection to install the dependencies."
+    fi
 }
 
 SetHosts(){
@@ -30,14 +36,14 @@ SetHosts(){
         then
             if grep -Fxq "$IP $HOSTNAME" $HOSTS_FILE
             then
-                echo Hostname $HOSTNAME whit IP $IP exist in $HOSTS_FILE
+                echo "Hostname $HOSTNAME whit IP $IP already exist in $HOSTS_FILE."
             else
-                echo Hostname $HOSTNAME exist in $HOSTS_FILE with another IP, changing IP to $IP
+                echo "Hostname $HOSTNAME already exist in $HOSTS_FILE with another IP, changing IP to $IP."
                 sed -i "/$HOSTNAME/d" $HOSTS_FILE
                 echo $IP $HOSTNAME >> $HOSTS_FILE
             fi
         else
-            echo Hostname $HOSTNAME no exist in $HOSTS_FILE, adding $HOSTNAME to $HOSTS_FILE
+            echo "Hostname $HOSTNAME no exist in $HOSTS_FILE, adding $HOSTNAME to $HOSTS_FILE."
             echo $IP $HOSTNAME >> $HOSTS_FILE
         fi
     done

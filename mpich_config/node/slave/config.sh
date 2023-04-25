@@ -9,18 +9,79 @@ source ../../commons/config.sh
 
 DEPS="openssh-server keychain build-essential mpich"
 # //////////////////////////////
+OPTS="\n
+    Use one or more flags to run the script:\n
+    -i\tInstall dependencies\n
+    -h\tHosts setup\n
+    -m\tMount mirror directory\n
+    -u\tSet new user\n
+    -a\tDo all\n"
+OPT_INSTALL=false
+OPT_HOSTS=false
+OPT_MIRROR=false
+OPT_USER=false
+
+if [ $# -eq 0 ]
+then
+    echo -e $OPTS
+    exit 1
+fi
+
+while getopts "ihmua" opt;
+do
+    case ${opt} in
+        i )
+            OPT_INSTALL=true
+        ;;
+
+        h)
+            OPT_HOSTS=true
+        ;;
+
+        m )
+            OPT_MIRROR=true
+        ;;
+
+        u )
+            OPT_USER=true
+        ;;
+
+        a )
+            OPT_INSTALL=true
+            OPT_HOSTS=true
+            OPT_MIRROR=true
+            OPT_USER=true
+        ;;
+        
+        * )
+            echo -e $OPTS
+            exit 1
+        ;;
+    esac
+done
 
 # Install dependencies
-UpdateInstall $DEPS
+if $OPT_INSTALL
+then
+    UpdateInstall $DEPS
+fi
 
 # Step 1: Defining hostnames in etc/hosts/
-SetHosts
+if $OPT_HOSTS
+then
+    SetHosts
+fi
 
 # Step 4: Mounting /master in nodes
-mkdirMirror
-mount ub0:/mirror /mirror
+if $OPT_MIRROR
+then
+    mkdirMirror
+    mount ub0:/mirror /mirror
+fi
 
 # Step 5: Defining a user for running MPI programs
 # If user exist delete it.
-setNewUser
-
+if $OPT_USER
+then
+    setNewUser
+fi
