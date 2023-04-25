@@ -3,7 +3,7 @@
 # User config
 NAME_NEW_USER="mpiu"
 ID_NEW_USER=1500
-HOME_NEW_USER=/mirror/${NAME_NEW_USER}
+HOME_NEW_USER=/home/${NAME_NEW_USER}
 
 # Hosts config
 # IP HOSTNAME
@@ -62,7 +62,7 @@ setNewUser(){
         userdel $NAME_NEW_USER
     fi
 
-    useradd -s /usr/bin/bash -u $ID_NEW_USER $NAME_NEW_USER
+    useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
     adduser $NAME_NEW_USER sudo
     passwd -d $NAME_NEW_USER
 }
