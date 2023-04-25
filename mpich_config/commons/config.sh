@@ -65,3 +65,9 @@ setNewUser(){
     useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
     passwd -d $NAME_NEW_USER
 }
+
+setSSH(){
+    SSH_CONFIG=/etc/ssh/sshd_config
+    sed -i '/#PasswordAuthentication yes/c\PasswordAuthentication yes' $SSH_CONFIG
+    sed -i '/#PermitEmptyPasswords no/c\PermitEmptyPasswords yes' $SSH_CONFIG
+}

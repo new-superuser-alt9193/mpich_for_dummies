@@ -15,11 +15,13 @@ OPTS="\n
     -h\tHosts setup\n
     -m\tMount mirror directory\n
     -u\tSet new user\n
+    -s\tEnable SSH with password authentication and permit empty password, not included in \"Do all\"\n
     -a\tDo all\n"
 OPT_INSTALL=false
 OPT_HOSTS=false
 OPT_MIRROR=false
 OPT_USER=false
+OPT_SSH=false
 
 if [ $# -eq 0 ]
 then
@@ -27,7 +29,7 @@ then
     exit 1
 fi
 
-while getopts "ihmua" opt;
+while getopts "ihmuas" opt;
 do
     case ${opt} in
         i )
@@ -53,6 +55,10 @@ do
             OPT_USER=true
         ;;
         
+        s )
+            OPT_SSH=true
+        ;;
+
         * )
             echo -e $OPTS
             exit 1
@@ -84,4 +90,9 @@ fi
 if $OPT_USER
 then
     setNewUser
+fi
+
+if $OPT_SSH
+then
+    setSSH
 fi
