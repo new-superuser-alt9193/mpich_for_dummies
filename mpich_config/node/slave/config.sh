@@ -81,6 +81,11 @@ fi
 # Step 4: Mounting /master in nodes
 if $OPT_MIRROR
 then
+    if mountpoint -q /mirror
+    then
+        umount /mirror
+    fi
+
     mkdirMirror
     mount ub0:/mirror /mirror
 fi

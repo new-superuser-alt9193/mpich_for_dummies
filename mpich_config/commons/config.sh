@@ -62,7 +62,8 @@ setNewUser(){
         userdel $NAME_NEW_USER
     fi
 
-    useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
+    useradd -s /usr/bin/bash -u $ID_NEW_USER $NAME_NEW_USER
+    adduser $NAME_NEW_USER sudo
     passwd -d $NAME_NEW_USER
 }
 
