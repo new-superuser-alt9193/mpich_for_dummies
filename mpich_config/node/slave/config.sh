@@ -7,7 +7,7 @@
 # Script config
 source ../../commons/config.sh
 
-DEPS="openssh-server keychain build-essential mpich"
+DEPS="nfs-client openssh-server keychain build-essential mpich"
 # //////////////////////////////
 OPTS="\n
     Use one or more flags to run the script:\n
