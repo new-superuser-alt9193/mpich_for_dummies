@@ -4,6 +4,7 @@
 NAME_NEW_USER="mpiu"
 ID_NEW_USER=1500
 HOME_NEW_USER=/home/${NAME_NEW_USER}
+PASSWORD_NEW_USER=123
 
 # Hosts config
 # IP HOSTNAME
@@ -66,7 +67,7 @@ setNewUser(){
 
     useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
     adduser $NAME_NEW_USER sudo
-    passwd -d $NAME_NEW_USER
+    echo -e "$PASSWORD_NEW_USER\n$PASSWORD_NEW_USER" | ( passwd $NAME_NEW_USER  > /dev/null 2>&1)
 }
 
 setSSH(){
