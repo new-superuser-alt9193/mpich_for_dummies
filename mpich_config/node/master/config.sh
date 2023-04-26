@@ -95,9 +95,9 @@ then
 # Step 7: Setting up passwordless SSH for communication between nodes (Not all the step)
 
     su $NAME_NEW_USER -c "
-        ssh-keygen -t rsa -f \"$HOME_NEW_USER/.ssh/${ID_NEW_USER}_rsa\" -P \"\";
+        ssh-keygen -t rsa -f \"$HOME_NEW_USER/.ssh/id_rsa\" -P \"\";
         cd $HOME_NEW_USER/.ssh;
-        cat ${ID_NEW_USER}_rsa.pub >> authorized_keys
+        cat id_rsa.pub >> authorized_keys
     "
 fi
 
