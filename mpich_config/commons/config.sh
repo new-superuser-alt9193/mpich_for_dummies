@@ -60,6 +60,7 @@ mkdirMirror(){
 setNewUser(){
     if id $NAME_NEW_USER &>/dev/null; then
         userdel $NAME_NEW_USER
+        rm -r /$HOME_NEW_USER
     fi
 
     useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
