@@ -82,8 +82,11 @@ fi
 if $OPT_MIRROR
 then
     mkdirMirror
-    echo "/mirror *(rw,sync)" | tee -a /etc/exports
-    service nfs-kernel-server restart   
+    if ! -Fxq "/mirror *(rw,sync)" /etc/exports
+    then
+        echo "/mirror *(rw,sync)" | tee -a /etc/exports
+        service nfs-kernel-server restart
+    fi
 fi
 
 # Step 5: Defining a user for running MPI programs
