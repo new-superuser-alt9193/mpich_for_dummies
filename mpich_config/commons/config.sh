@@ -11,6 +11,7 @@ HOSTS=(
     192.168.4.9 ub0
     192.168.4.7 ub1
     192.168.4.8 ub2
+    192.168.4.100 ub3
 )
 HOSTS_FILE=/etc/hosts
 
@@ -60,7 +61,7 @@ mkdirMirror(){
 setNewUser(){
     if id $NAME_NEW_USER &>/dev/null; then
         userdel $NAME_NEW_USER
-        rm -r /$HOME_NEW_USER
+        rm -r $HOME_NEW_USER
     fi
 
     useradd -s /usr/bin/bash -m -d $HOME_NEW_USER -u $ID_NEW_USER $NAME_NEW_USER
