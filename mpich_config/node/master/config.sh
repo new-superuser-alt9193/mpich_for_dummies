@@ -82,7 +82,7 @@ fi
 if $OPT_MIRROR
 then
     mkdirMirror
-    if ! -Fxq "/mirror *(rw,sync)" /etc/exports
+    if ! grep -Fxq "/mirror *(rw,sync)" /etc/exports
     then
         echo "/mirror *(rw,sync)" | tee -a /etc/exports
         service nfs-kernel-server restart
