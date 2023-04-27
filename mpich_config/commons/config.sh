@@ -22,7 +22,7 @@ UpdateInstall(){
     if [ $? -eq 0 ]
     then
         apt update
-        apt install -y $1
+        apt install -y $@
     else
         echo "You need an internet connection to install the dependencies."
     fi
@@ -52,7 +52,8 @@ SetHosts(){
 }
 
 mkdirMirror(){
-    if [ -d /mirror ]; then
+    if [ -d /mirror ]
+    then
         rm -r /mirror
     fi
 
@@ -60,7 +61,8 @@ mkdirMirror(){
 }
 
 setNewUser(){
-    if id $NAME_NEW_USER &>/dev/null; then
+    if id $NAME_NEW_USER &>/dev/null
+    then
         userdel $NAME_NEW_USER
         rm -r $HOME_NEW_USER
     fi
